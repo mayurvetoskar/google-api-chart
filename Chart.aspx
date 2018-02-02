@@ -32,6 +32,23 @@
                 data.addColumn('number', 'Sales Amount');
                 data.addColumn('number', 'Sales Per');
                 data.addRows(details);
+
+                var total = google.visualization.data.group(data, [{
+                    type: 'boolean',
+                    column: 0,
+                    modifier: function () { return true; }
+                }], [{
+                    type: 'number',
+                    column: 1,
+                    aggregation: google.visualization.data.sum
+                }], [{
+                    type: 'number',
+                    column: 2,
+                    aggregation: google.visualization.data.sum
+                }]);
+
+                data.addRow(['Total: ' + total.getValue(0, 1), 0, 2]);
+
                 //data.addRows([
                 //  ['Department-1', 1000, 7],
                 //  ['Department-2', 2000, 13],
@@ -44,7 +61,8 @@
                 var options = {
                     'title': 'Department Wise Sales Figure',
                     'width': 600,
-                    'height': 400
+                    'height': 400,
+                    'sliceVisibilityThreshold': 0
                 };
 
                 // Instantiate and draw our chart, passing in some options.
